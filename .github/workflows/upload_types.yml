@@ -1,4 +1,4 @@
-name: Lean Action CI
+name: Upload types dataset to HuggingFace Hub
 
 on:
   schedule:
