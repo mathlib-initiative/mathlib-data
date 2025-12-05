@@ -1,8 +1,8 @@
 name: Lean Action CI
 
 on:
-  push:
-  pull_request:
+  schedule:
+    - cron: "0 0 * * 0"  # Every Sunday at midnight UTC
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -18,4 +18,38 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: leanprover/lean-action@v1
-      - uses: leanprover-community/docgen-action@v1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Create temp directory
+        id: tempdir
+        run: echo "path=$(mktemp -d)" >> "$GITHUB_OUTPUT"
+
+      - name: Generate parquet files
+        run: |
+          curl -fsSL mathlib-initiative.github.io/lean_scout/extract.sh | bash -s -- \
+            --command types \
+            --parquet \
+            --dataDir "${{ steps.tempdir.outputs.path }}" \
+            --imports Mathlib
+
+      - name: Verify parquet files exist
+        run: |
+          if ! ls "${{ steps.tempdir.outputs.path }}"/*.parquet 1>/dev/null 2>&1; then
+            echo "::error::No parquet files were generated"
+            exit 1
+          fi
+          echo "Generated data:"
+          ls -lh "${{ steps.tempdir.outputs.path }}"/*.parquet
+
+      - name: Upload to HuggingFace Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          uvx hf upload \
+            "${{ vars.HF_ORG }}/mathlib-types" \
+            "${{ steps.tempdir.outputs.path }}" \
+            --repo-type dataset \
+            --private \
+            --commit-message "Update dataset from ${{ github.sha }}" \
