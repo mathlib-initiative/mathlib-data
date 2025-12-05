@@ -43,6 +43,11 @@ jobs:
           echo "Generated data:"
           ls -lh "${{ steps.tempdir.outputs.path }}"/*.parquet
 
+      - name: Generate datacard
+        run: |
+          uv run python generate_datacard.py README.types.template.md \
+            -o "${{ steps.tempdir.outputs.path }}/README.md"
+
       - name: Upload to HuggingFace Hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}

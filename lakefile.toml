@@ -1,17 +1,12 @@
 name = "mathlib-data"
 version = "0.1.0"
-keywords = ["math"]
-defaultTargets = ["MathlibData"]
-
-[leanOptions]
-pp.unicode.fun = true # pretty-prints `fun a ↦ b`
-relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true
-maxSynthPendingDepth = 3
+reservoir = false
 
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
 
-[[lean_lib]]
-name = "MathlibData"
+[[require]]
+name = "lean_scout"
+git = "https://github.com/mathlib-initiative/lean_scout.git"
+rev = "main"
