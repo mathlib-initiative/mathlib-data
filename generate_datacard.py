@@ -11,6 +11,16 @@ import yaml
 from jinja2 import Environment, FileSystemLoader
 
 
+def get_mathlib_commit() -> str:
+    """Extract mathlib commit hash from lake-manifest.json."""
+    manifest_path = Path("lake-manifest.json")
+    manifest = json.loads(manifest_path.read_text())
+    for pkg in manifest["packages"]:
+        if pkg["name"] == "mathlib":
+            return pkg["rev"]
+    raise ValueError("mathlib not found in lake-manifest.json")
+
+
 def get_schema(schema_type: str) -> dict:
     """Run lake exe lean_scout_schema to get the JSON schema."""
     result = subprocess.run(
@@ -48,7 +58,7 @@ def generate_datacard(template_path: Path) -> str:
     template = env.get_template(template_path.name)
     schema = get_schema("types")
 
-    return template.render(schema=schema)
+    return template.render(schema=schema, mathlib_commit=get_mathlib_commit())
 
 
 def main():

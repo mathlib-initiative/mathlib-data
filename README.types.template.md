@@ -12,9 +12,12 @@ pretty_name: Mathlib Types
 
 # Mathlib Types
 
-This dataset contains information about types defined in [Mathlib](https://github.com/leanprover-community/mathlib4), the mathematical library for the Lean 4 theorem prover, extracted using [lean_scout](https://github.com/mathlib-initiative/lean_scout).
+This dataset contains information about types defined in [Mathlib](https://github.com/leanprover-community/mathlib4/commit/{{ mathlib_commit }}), the mathematical library for the Lean 4 theorem prover, extracted using [lean_scout](https://github.com/mathlib-initiative/lean_scout).
 
-## Data Schema
+Extracted from the Mathlib commit with the following hash:
+```
+{{ mathlib_commit }}
+```
 
 The dataset follows this schema:
 
