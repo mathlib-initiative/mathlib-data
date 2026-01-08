@@ -36,6 +36,6 @@ jobs:
         with:
           tag: ${{ matrix.tag }}
           # START CONFIGURATION BLOCK 2
-          on_update_succeeds: pr # Create a pull request if the update succeeds
+          on_update_succeeds: commit # Create a pull request if the update succeeds
           on_update_fails: issue # Create an issue if the update fails
           # END CONFIGURATION BLOCK 2
