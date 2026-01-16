@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate parquet files
         run: |
-          curl -fsSL mathlib-initiative.github.io/lean_scout/extract.sh | bash -s -- \
+          lake run scout \
             --command types \
             --parquet \
             --dataDir "${{ steps.tempdir.outputs.path }}" \
