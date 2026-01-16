@@ -32,6 +32,7 @@ jobs:
             --command types \
             --parquet \
             --dataDir "${{ steps.tempdir.outputs.path }}" \
+            --config '{"taskLimit": 4}' \
             --imports Mathlib
 
       - name: Verify parquet files exist
