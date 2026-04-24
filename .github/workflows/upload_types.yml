@@ -1,8 +1,8 @@
 name: Upload types dataset to HuggingFace Hub
 
 on:
-  schedule:
-    - cron: "0 0 * * 0"  # Every Sunday at midnight UTC
+#  schedule:
+#    - cron: "0 0 * * 0"  # Every Sunday at midnight UTC
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
